@@ -5,10 +5,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 public class Note {
 
     @Id
@@ -25,52 +27,52 @@ public class Note {
 
     private LocalDateTime timestampUpdated;
 
-    // Getters and Setters
-    public Long getNoteId() {
-        return noteId;
-    }
-
-    public void setNoteId(Long noteId) {
-        this.noteId = noteId;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public LocalDateTime getTimestampCreated() {
-        return timestampCreated;
-    }
-
-    public void setTimestampCreated(LocalDateTime timestampCreated) {
-        this.timestampCreated = timestampCreated;
-    }
-
-    public LocalDateTime getTimestampUpdated() {
-        return timestampUpdated;
-    }
-
-    public void setTimestampUpdated(LocalDateTime timestampUpdated) {
-        this.timestampUpdated = timestampUpdated;
-    }
+//    // Getters and Setters
+//    public Long getNoteId() {
+//        return noteId;
+//    }
+//
+//    public void setNoteId(Long noteId) {
+//        this.noteId = noteId;
+//    }
+//
+//    public String getSubject() {
+//        return subject;
+//    }
+//
+//    public void setSubject(String subject) {
+//        this.subject = subject;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public int getLikes() {
+//        return likes;
+//    }
+//
+//    public void setLikes(int likes) {
+//        this.likes = likes;
+//    }
+//
+//    public LocalDateTime getTimestampCreated() {
+//        return timestampCreated;
+//    }
+//
+//    public void setTimestampCreated(LocalDateTime timestampCreated) {
+//        this.timestampCreated = timestampCreated;
+//    }
+//
+//    public LocalDateTime getTimestampUpdated() {
+//        return timestampUpdated;
+//    }
+//
+//    public void setTimestampUpdated(LocalDateTime timestampUpdated) {
+//        this.timestampUpdated = timestampUpdated;
+//    }
 }
