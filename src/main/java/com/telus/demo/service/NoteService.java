@@ -8,10 +8,15 @@ import org.springframework.stereotype.Service;
 import com.telus.demo.dao.NoteRepository;
 import com.telus.demo.modal.Note;
 
-@Service
+@Service 
 public class NoteService {
 
-    private NoteRepository noteRepository;
+    private final NoteRepository noteRepository;
+
+    
+    public NoteService(NoteRepository noteRepository) {
+        this.noteRepository = noteRepository;
+    }
 
     public List<Note> getAllNotes() {
         return noteRepository.findAll();
