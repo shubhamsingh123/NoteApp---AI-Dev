@@ -6,10 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.telus.demo") 
-public class DemoApplication {
+public class NoteApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(NoteApplication.class, args);
 		System.out.println("Application Started");
 	}
 

@@ -1,36 +1,31 @@
 package com.telus.demo.modal;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
+
 @Entity
 public class Note {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noteId;
 
-    @Column(nullable = false)
     private String subject;
 
-    @Column(nullable = false)
     private String description;
 
-    private Instant timestampCreated;
-    private Instant timestampUpdated;
+    private int likes = 0;
 
-    public Note() {
-    }
+    private LocalDateTime timestampCreated;
 
-    public Note(Long noteId, String subject, String description, Instant timestampCreated, Instant timestampUpdated) {
-        this.noteId = noteId;
-        this.subject = subject;
-        this.description = description;
-        this.timestampCreated = timestampCreated;
-        this.timestampUpdated = timestampUpdated;
-    }
+    private LocalDateTime timestampUpdated;
 
+    // Getters and Setters
     public Long getNoteId() {
         return noteId;
     }
@@ -55,41 +50,27 @@ public class Note {
         this.description = description;
     }
 
-    public Instant getTimestampCreated() {
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public LocalDateTime getTimestampCreated() {
         return timestampCreated;
     }
 
-    public void setTimestampCreated(Instant timestampCreated) {
+    public void setTimestampCreated(LocalDateTime timestampCreated) {
         this.timestampCreated = timestampCreated;
     }
 
-    public Instant getTimestampUpdated() {
+    public LocalDateTime getTimestampUpdated() {
         return timestampUpdated;
     }
 
-    public void setTimestampUpdated(Instant timestampUpdated) {
+    public void setTimestampUpdated(LocalDateTime timestampUpdated) {
         this.timestampUpdated = timestampUpdated;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.timestampCreated = Instant.now();
-        this.timestampUpdated = Instant.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.timestampUpdated = Instant.now();
-    }
-
-    @Override
-    public String toString() {
-        return "Note{" +
-                "noteId=" + noteId +
-                ", subject='" + subject + '\'' +
-                ", description='" + description + '\'' +
-                ", timestampCreated=" + timestampCreated +
-                ", timestampUpdated=" + timestampUpdated +
-                '}';
     }
 }
