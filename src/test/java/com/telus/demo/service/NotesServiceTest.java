@@ -206,4 +206,32 @@ public class NotesServiceTest {
         verify(notesRepository, times(1)).save(any(Note.class));
     }
 
+    @Test
+    void testGetLikedNotes() {
+        Note likedNote = new Note();
+        likedNote.setLikes(5);
+
+        when(notesRepository.findByLikesGreaterThan(0)).thenReturn(List.of(likedNote));
+
+        List<Note> likedNotes = notesService.getLikedNotes();
+
+        assertNotNull(likedNotes);
+        assertEquals(1, likedNotes.size());
+        assertEquals(5, likedNotes.get(0).getLikes());
+        verify(notesRepository, times(1)).findByLikesGreaterThan(0);
+    }
+
+    @Test
+    void testGetAllNotes() {
+        Note note1 = new Note();
+        Note note2 = new Note();
+
+        when(notesRepository.findAll()).thenReturn(List.of(note1, note2));
+
+        List<Note> allNotes = notesService.getAllNotes();
+
+        assertNotNull(allNotes);
+        assertEquals(2, allNotes.size());
+        verify(notesRepository, times(1)).findAll();
+    }
 }
