@@ -119,4 +119,9 @@ public class NotesService {
         log.info("Found {} liked notes", likedNotes.size());
         return likedNotes;
     }
+
+    public List<Note> getAllNotes() {
+        log.info("Fetching all available notes");
+        return noteRepository.findAll();
+    }
 }

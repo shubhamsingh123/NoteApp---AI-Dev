@@ -43,6 +43,11 @@ public class NotesController {
         return ResponseEntity.ok(notesService.searchNotesBySubject(subject));
     }
 
+    @GetMapping
+    public ResponseEntity<List<Note>> getAllNotes() {
+        return ResponseEntity.ok(notesService.getAllNotes());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Note> getNoteById(@PathVariable Long id) {
         return ResponseEntity.ok(notesService.getNoteById(id));
