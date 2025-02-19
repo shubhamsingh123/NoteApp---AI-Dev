@@ -177,4 +177,49 @@ public class NotesController {
         // Retrieves all notes that have at least one like.
         return ResponseEntity.ok(notesService.getLikedNotes());
     }
+
+    /**
+     * Retrieves the top 5 most liked notes.
+     *
+     * @return a ResponseEntity containing the list of top 5 liked notes
+     */
+    @GetMapping("/top-liked")
+    public ResponseEntity<List<Note>> getTopLikedNotes() {
+        return ResponseEntity.ok(notesService.getTopLikedNotes());
+    }
+
+    /**
+     * ̥
+     * Boosts the like count of a note by 10.
+     *
+     * @param id the ID of the note to boost likes
+     * @return a ResponseEntity containing a success message and the updated like count
+     */
+    @PostMapping("/{id}/like-boost")
+    public ResponseEntity<Map<String, Object>> boostLikes(@PathVariable Long id) {
+        Note updatedNote = notesService.boostLikes(id);
+        return ResponseEntity.ok(Map.of(
+                "message", "Like Boost Activated!",
+                "TotalLikes", updatedNote.getLikes()
+        ));
+    }
+
+    /**
+     * Resets the like count of a note to 0 (admin only).
+     *
+     * @param id the ID of the note to reset likes
+     * @return a ResponseEntity containing a success message and the updated like count
+     */
+    @DeleteMapping("/{id}/like-reset")
+    public ResponseEntity<Map<String, Object>> resetLikes(@PathVariable Long id) {
+        Note updatedNote = notesService.resetLikes(id);
+        return ResponseEntity.ok(Map.of(
+                "message", "All like resets",
+                "TotalLikes", updatedNote.getLikes()
+        ));
+    }
+
+
 }
+
+
