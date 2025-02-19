@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -187,4 +188,111 @@ public class NotesControllerTest {
     }
 
 
+    @Test
+    void testGetTopLikedNotes() throws Exception {
+        List<Note> mockNotes = List.of(
+                Note.builder().noteId(1L).subject("Project Plan").likes(45).build(),
+                Note.builder().noteId(2L).subject("Meeting Notes").likes(30).build()
+        );
+
+        when(notesService.getTopLikedNotes()).thenReturn(mockNotes);
+
+        mockMvc.perform(get("/api/notes/top-liked"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].likes").value(45))
+                .andExpect(jsonPath("$[1].likes").value(30));
+
+        verify(notesService, times(1)).getTopLikedNotes();
+    }
+
+    @Test
+    void testBoostLikes() throws Exception {
+        Note updatedNote = Note.builder().noteId(1L).subject("Project Plan").likes(55).build();
+
+        when(notesService.boostLikes(1L)).thenReturn(updatedNote);
+
+        mockMvc.perform(post("/api/notes/1/like-boost"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Like Boost Activated!"))
+                .andExpect(jsonPath("$.TotalLikes").value(55));
+
+        verify(notesService, times(1)).boostLikes(1L);
+    }
+
+    @Test
+    void testResetLikes() throws Exception {
+        Note updatedNote = Note.builder().noteId(1L).subject("Project Plan").likes(0).build();
+
+        when(notesService.resetLikes(1L)).thenReturn(updatedNote);
+
+        mockMvc.perform(delete("/api/notes/1/like-reset"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("All like resets"))
+                .andExpect(jsonPath("$.TotalLikes").value(0));
+
+        verify(notesService, times(1)).resetLikes(1L);
+    }
+
+    @Test
+    public void testGetAverageNoteLength() throws Exception {
+        // Arrange
+        double averageLength = 100.0;  // Example average note length
+        when(notesService.getAverageNoteLength()).thenReturn(averageLength);
+
+        // Act & Assert
+        mockMvc.perform(get("/api/notes/average-length"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(averageLength));
+    }
+
+    @Test
+    public void testLikeNote() throws Exception {
+        // Arrange
+        Long noteId = 1L;
+        Note note = new Note();
+        note.setNoteId(noteId);
+        note.setLikes(1);
+        when(notesService.likeNote(noteId)).thenReturn(note);
+
+        // Act & Assert
+        mockMvc.perform(post("/api/notes/{id}/like", noteId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.noteId").value(noteId))
+                .andExpect(jsonPath("$.likes").value(1));
+    }
+
+    @Test
+    public void testUnlikeNote() throws Exception {
+        // Arrange
+        Long noteId = 1L;
+        Note note = new Note();
+        note.setNoteId(noteId);
+        note.setLikes(0);
+        when(notesService.unlikeNote(noteId)).thenReturn(note);
+
+        // Act & Assert
+        mockMvc.perform(delete("/api/notes/{id}/unlike", noteId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.noteId").value(noteId))
+                .andExpect(jsonPath("$.likes").value(0));
+    }
+
+    @Test
+    public void testGetLikedNotes() throws Exception {
+        // Arrange
+        List<Note> likedNotes = Arrays.asList(
+                Note.builder().noteId(1L).subject("Note 1").description("Description 1").likes(10).build(),
+                Note.builder().noteId(1L).subject("Note 2").description("Description 2").likes(20).build()
+        );
+        when(notesService.getLikedNotes()).thenReturn(likedNotes);
+
+        // Act & Assert
+        mockMvc.perform(get("/api/notes/liked"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].noteId").value(1))
+                .andExpect(jsonPath("$[1].noteId").value(1))
+                .andExpect(jsonPath("$[0].likes").value(10))
+                .andExpect(jsonPath("$[1].likes").value(20));
+    }
 }
