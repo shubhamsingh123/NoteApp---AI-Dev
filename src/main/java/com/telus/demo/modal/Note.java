@@ -27,7 +27,7 @@ public class Note {
 
     private String description;
 
-    private int likes = 0;
+    private int likes;
 
     private LocalDateTime timestampCreated;
 
