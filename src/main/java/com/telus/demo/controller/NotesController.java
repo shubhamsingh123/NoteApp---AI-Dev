@@ -214,7 +214,7 @@ public class NotesController {
     public ResponseEntity<Map<String, Object>> resetLikes(@PathVariable Long id) {
         Note updatedNote = notesService.resetLikes(id);
         return ResponseEntity.ok(Map.of(
-                "message", "All like resets",
+                "message", "All like reset!",
                 "TotalLikes", updatedNote.getLikes()
         ));
     }

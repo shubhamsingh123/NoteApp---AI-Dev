@@ -130,6 +130,7 @@ public class NotesControllerTest {
         // Then
         mockMvc.perform(delete("/api/notes/1"))
                 .andExpect(status().isOk());
+        verify(notesService, times(1)).deleteNote(any(Long.class));
     }
 
     @Test
@@ -228,7 +229,7 @@ public class NotesControllerTest {
 
         mockMvc.perform(delete("/api/notes/1/like-reset"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("All like resets"))
+                .andExpect(jsonPath("$.message").value("All like reset!"))
                 .andExpect(jsonPath("$.TotalLikes").value(0));
 
         verify(notesService, times(1)).resetLikes(1L);
