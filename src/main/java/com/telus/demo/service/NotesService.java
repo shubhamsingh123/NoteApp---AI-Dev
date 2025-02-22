@@ -58,9 +58,16 @@ public class NotesService {
         Note note = noteRepository.findById(id)
                 .orElseThrow(() -> new NoteNotFoundException("Note with ID " + id + " not found"));
 
-        note.setSubject(noteDetails.getSubject());
-        note.setDescription(noteDetails.getDescription());
+        if (noteDetails.getSubject() != null) {
+            note.setSubject(noteDetails.getSubject());
+        }
+        if (noteDetails.getDescription() != null) {
+            note.setDescription(noteDetails.getDescription());
+        }
         note.setTimestampUpdated(LocalDateTime.now());  // Updating timestamp
+        if (noteDetails.getLikes() > 0) {
+            note.setLikes(noteDetails.getLikes());
+        }
         Note updatedNote = noteRepository.save(note);
         log.info("Note with ID {} modified successfully", updatedNote.getNoteId());
         return updatedNote;
